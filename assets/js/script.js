@@ -75,12 +75,14 @@ const buildTable = (data) => {
 }
 // initial table created
 buildTable(data);
+
 const serialNum = document.querySelectorAll('.serial-num'),
   firstName = document.querySelectorAll('.f-name'),
   lastName = document.querySelectorAll('.l-name'),
   dob = document.querySelectorAll('.dob'),
   address = document.querySelectorAll('.address'),
   headingRow = document.querySelector('.heading-row');
+
 // function to generate form
 const generateForm = () => {
   const formContainer = document.createElement('div');
@@ -122,14 +124,13 @@ const isNo = document.querySelector('#No'),
 let timeout;
 
 // function to filter list by inputs
+let checkedCount;
 allInput.forEach(inp => {
   inp.checked = true;
   inp.addEventListener('click', () => {
-    let checkedCount = isFirstName.checked + isLastName.checked + isDob.checked + isAddress.checked + isNo.checked;
-    clearTimeout(timeout);
+    checkedCount = isFirstName.checked + isLastName.checked + isDob.checked + isAddress.checked + isNo.checked;
     if (checkedCount < 1) {
-      // inp.checked = true;
-      inp.disabled = true;
+      inp.checked = true;
     } else {
       form.classList.add('hide-content');
       checkInput(isNo, serialNum);
@@ -143,6 +144,12 @@ allInput.forEach(inp => {
 
 // function to show filter form
 headingRow.addEventListener('click', (e) => {
+  clearTimeout(timeout);
+  allInput.forEach((inp) => {
+    if (checkedCount === 1) {
+      inp.disabled = true;
+    }
+  })
   let pLeft = e.clientX;
   let pTop = e.clientY;
   form.style.top = pTop + 'px';
@@ -154,7 +161,7 @@ headingRow.addEventListener('click', (e) => {
 });
 
 // function to validate input is checked or not
-const checkInput = (input, param)=> {
+const checkInput = (input, param) => {
   param.forEach((list) => {
     if (!input.checked) {
       list.classList.add('hide-content');

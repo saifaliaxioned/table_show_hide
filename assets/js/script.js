@@ -162,7 +162,6 @@ const checkInput = (input, param) => {
     if (!input.checked) {
       list.classList.add('hide-content');
     } else {
-      console.log(checkedCount);
       input.disabled = false;
       list.classList.remove('hide-content');
     }

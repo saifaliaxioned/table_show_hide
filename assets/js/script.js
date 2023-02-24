@@ -131,6 +131,7 @@ allInput.forEach(inp => {
     checkedCount = isFirstName.checked + isLastName.checked + isDob.checked + isAddress.checked + isNo.checked;
     if (checkedCount < 1) {
       inp.checked = true;
+      inp.disabled = true;
     } else {
       form.classList.add('hide-content');
       checkInput(isNo, serialNum);
@@ -145,11 +146,6 @@ allInput.forEach(inp => {
 // function to show filter form
 headingRow.addEventListener('click', (e) => {
   clearTimeout(timeout);
-  allInput.forEach((inp) => {
-    if (checkedCount === 1) {
-      inp.disabled = true;
-    }
-  })
   let pLeft = e.clientX;
   let pTop = e.clientY;
   form.style.top = pTop + 'px';
@@ -166,6 +162,8 @@ const checkInput = (input, param) => {
     if (!input.checked) {
       list.classList.add('hide-content');
     } else {
+      console.log(checkedCount);
+      input.disabled = false;
       list.classList.remove('hide-content');
     }
   });

@@ -128,24 +128,18 @@ let checkedCount;
 allInput.forEach(inp => {
   inp.checked = true;
   inp.addEventListener('click', () => {
-    checkedCount = isFirstName.checked + isLastName.checked + isDob.checked + isAddress.checked + isNo.checked;
-    if (checkedCount < 1) {
-      inp.checked = true;
-      inp.disabled = true;
-    } else {
+    if (checkedCount != 0) {
       form.classList.add('hide-content');
-      checkInput(isNo, serialNum);
-      checkInput(isFirstName, firstName);
-      checkInput(isLastName, lastName);
-      checkInput(isDob, dob);
-      checkInput(isAddress, address);
-    }
+      getChecked();
+    } 
   });
 });
 
 // function to show filter form
 headingRow.addEventListener('click', (e) => {
   clearTimeout(timeout);
+  checkedCount = isFirstName.checked + isLastName.checked + isDob.checked + isAddress.checked + isNo.checked;
+  getChecked();
   let pLeft = e.clientX;
   let pTop = e.clientY;
   form.style.top = pTop + 'px';
@@ -157,16 +151,28 @@ headingRow.addEventListener('click', (e) => {
 });
 
 // function to validate input is checked or not
-const checkInput = (input, param) => {
-  param.forEach((list) => {
-    if (!input.checked) {
-      list.classList.add('hide-content');
-    } else {
-      input.disabled = false;
-      list.classList.remove('hide-content');
-    }
-  });
-};
+const getChecked = ()=> {
+  const checkInput = (input, param) => {
+    param.forEach((list) => {
+      if (!input.checked) {
+        list.classList.add('hide-content');
+      } else {
+        if (checkedCount == 1) {
+          input.checked = true;
+          input.disabled = true;
+        } else {
+          input.disabled = false;
+        }
+        list.classList.remove('hide-content');
+      }
+    });
+  };
+  checkInput(isNo, serialNum);
+  checkInput(isFirstName, firstName);
+  checkInput(isLastName, lastName);
+  checkInput(isDob, dob);
+  checkInput(isAddress, address);
+}
 
 
 
